@@ -46,8 +46,8 @@
 }
 @font-face {
     font-family: 'DFVN Indulge Script';
-    src: url('DFVN-IndulgeScript-Regular.woff2') format('woff2'),
-        url('DFVN-IndulgeScript-Regular.woff') format('woff');
+    src: url('./Font/DFVN-IndulgeScript-Regular.woff2') format('woff2'),
+        url('./Font/DFVN-IndulgeScript-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
