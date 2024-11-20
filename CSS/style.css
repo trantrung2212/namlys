@@ -44,6 +44,14 @@
     --shadow-large: ;
     --transition: .3s;
 }
+@font-face {
+    font-family: 'DFVN Indulge Script';
+    src: url('DFVN-IndulgeScript-Regular.woff2') format('woff2'),
+        url('DFVN-IndulgeScript-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 /* RESPONSEIVE ROOT */
 /* Mobile */
