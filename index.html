@@ -8,8 +8,27 @@
 		<meta property="og:image" content="./Photo/LAC05895.png">
 		<title>Thiệp mời Phương Nam - Thiên Lý</title>
 
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js"></script>
+
+<script>
+  // Cấu hình Firebase của bạn
+  const firebaseConfig = {
+     apiKey: "AIzaSyBjZlfSat-d3MKTgHMgnFo4-hCDv-wTgkw",
+    authDomain: "namlys.firebaseapp.com",
+    databaseURL: "https://namlys-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "namlys",
+    storageBucket: "namlys.firebasestorage.app",
+    messagingSenderId: "573398370432",
+    appId: "1:573398370432:web:5195b26650df2cf0fffe65"
+  };
+
+  // Khởi tạo Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const database = firebase.database(app);
+</script>
+
 	
 <meta name="robots" content="max-image-preview:large">
 <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
@@ -295,63 +314,86 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
 </section>
 <!-- END ALBUM -->
 
-<section id="message" class="section-message uk-background-cover uk-section" 
-    style="background-image:url('./Photo/LAC05666.png'); display:block;">
-    <!-- Overlay -->
-    <div class="uk-position-cover uk-overlay uk-overlay-primary" style="opacity:.5"></div>
+<section id="message" class="section-message uk-background-cover uk-section" style="background-image:url(https://thiepdientu.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2024/05/04062525/D06C7125-5F86-4629-9ABD-1E595698613D.jpeg); display:block">
+  <div class="uk-position-cover uk-overlay uk-overlay-primary" style="opacity:.5"> </div>
+  <div class="message-container container uk-position-relative uk-position-z-index">
+    <h2 class="section-title uk-light" style="color:white">
+      Gửi lời chúc đến cặp đôi
+    </h2>
+    <div class="list_message" id="messageList"></div>
 
-    <!-- Nội dung -->
-    <div class="message-container container uk-position-relative uk-position-z-index">
-      <!-- Tiêu đề -->
-      <h2 class="section-title uk-light" style="color:white;">Gửi lời chúc đến cặp đôi</h2>
-
-      <!-- Danh sách lời chúc -->
-      <div class="list_message">
-        <div class="blur-bg uk-padding-small uk-border-rounded uk-light">
-        <h3 class="user_message">Anh Trung</h3>
-        <p class="message_body">Chúc mừng Nam và Lý, hy vọng hành trình hôn nhân của hai em tràn ngập tiếng cười và niềm vu, hạnh phúc như phim và không có kết thúc 😊🥰😎 From a Trung Thạch Lạc with love</p>
-        <div class="emoji-list">❤️ 🎉 🥳</div>
-      </div>
-      <!-- Các lời chúc khác sẽ hiển thị ở đây -->
-      </div>
-
-      <!-- Form gửi lời chúc -->
-      <div class="uk-padding-small uk-border-rounded blur-bg" style="border:1px solid white;">
-        <h3 class="form-title" style="color:white;">Gửi lời chúc</h3>
-        <form id="messageForm" method="POST">
-          <!-- Tên -->
-          <div class="input-group uk-margin-top">
-            <label for="m_name" style="color:white;">Tên của bạn</label>
-            <input id="m_name" type="text" class="input blur-bg" style="border:1px solid white; color:white;" required>
-          </div>
-
-          <!-- Lời chúc -->
-          <div class="input-group uk-margin-top">
-            <label for="m_text" style="color:white;">Lời nhắn gửi</label>
-            <textarea id="m_text" class="input-text blur-bg" style="border:1px solid white; color:white;" rows="5" required></textarea>
-          </div>
-
-          <!-- Chọn icon -->
-          <div class="input-group uk-margin-top">
-            <label style="color:white;">Thả icon</label>
-            <div id="emojiPicker" style="display:flex; gap:10px;">
-              <span class="emoji" style="cursor:pointer; font-size:20px;">❤️</span>
-              <span class="emoji" style="cursor:pointer; font-size:20px;">🎉</span>
-              <span class="emoji" style="cursor:pointer; font-size:20px;">🥳</span>
-              <span class="emoji" style="cursor:pointer; font-size:20px;">😊</span>
-              <span class="emoji" style="cursor:pointer; font-size:20px;">💍</span>
-            </div>
-          </div>
-
-          <!-- Nút gửi -->
-          <button type="submit" class="btn btn-primary send_message uk-margin-top" style="color:white;">Gửi lời chúc</button>
-        </form>
-      </div>
+    <!-- Form gửi lời chúc -->
+    <div class="uk-padding-small uk-border-rounded blur-bg" style="border:1px solid white">
+      <h3 class="form-title" style="color:white">Gửi lời chúc</h3>
+      <form id="messageForm" method="POST">
+        <input type="hidden" id="postId" value="13886">
+        <div class="input-group uk-margin-top" style="color:white">
+          <label for="">Tên của bạn</label>
+          <input style="border:1px solid white" id="m_name" type="text" class="input blur-bg" required="">
+        </div>
+        <div class="input-group uk-margin-top">
+          <label for="" style="color:white">Lời nhắn gửi</label>
+          <textarea style="border:1px solid white; color:white" id="m_text" class="input-text text-white blur-bg" name="" cols="30" rows="5" required=""></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary send_message uk-margin-top" style="color:white">Gửi lời chúc</button>
+      </form>
     </div>
-  </section>
-	
-<!-- VIDEO -->
-<style>
+  </div>
+</section>
+
+<script>
+  const messageForm = document.getElementById('messageForm');
+  const messageList = document.getElementById('messageList');
+  const mName = document.getElementById('m_name');
+  const mText = document.getElementById('m_text');
+
+  // Gửi lời chúc đến Firebase
+  messageForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = mName.value.trim();
+    const message = mText.value.trim();
+
+    if (name && message) {
+      // Lưu lời chúc vào Firebase
+      const newMessageRef = database.ref('messages').push();
+      newMessageRef.set({
+        name: name,
+        message: message,
+        timestamp: new Date().toISOString()
+      });
+
+      // Xóa nội dung trong form
+      mName.value = '';
+      mText.value = '';
+    }
+  });
+
+  // Hiển thị các lời chúc từ Firebase
+  function displayMessages() {
+    database.ref('messages').on('value', function(snapshot) {
+      const messages = snapshot.val();
+      messageList.innerHTML = ''; // Xóa tất cả các lời chúc trước đó
+
+      for (const messageId in messages) {
+        const messageData = messages[messageId];
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
+
+        messageElement.innerHTML = `
+          <h3 class="user_message">${messageData.name}</h3>
+          <p class="message_body">${messageData.message}</p>
+        `;
+
+        messageList.appendChild(messageElement);
+      }
+    });
+  }
+
+  // Khi trang web tải xong, hiển thị lời chúc
+  window.onload = displayMessages;
+</script>
+
 
 #video {
     padding: 80px 0;
