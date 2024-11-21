@@ -365,6 +365,7 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
 </section>
 <!-- END ALBUM -->
 
+
 <section id="message" class="section-message uk-background-cover uk-section" style="background-image:url(./Photo/LAC05666.png); display:block">
   <div class="uk-position-cover uk-overlay uk-overlay-primary" style="opacity:.5"> </div>
   <div class="message-container container uk-position-relative uk-position-z-index">
@@ -426,8 +427,19 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
       const messages = snapshot.val();
       messageList.innerHTML = ''; // Xóa tất cả các lời chúc trước đó
 
-      for (const messageId in messages) {
-        const messageData = messages[messageId];
+      // Lấy các messages từ Firebase và chuyển chúng thành một mảng
+      const messagesArray = Object.keys(messages).map(messageId => {
+        return {
+          id: messageId,
+          ...messages[messageId]
+        };
+      });
+
+      // Sắp xếp mảng messagesArray để tin nhắn mới nhất lên trước
+      messagesArray.reverse(); // Đảo ngược mảng để hiển thị tin nhắn mới nhất trước
+
+      // Duyệt qua các tin nhắn đã sắp xếp và hiển thị
+      messagesArray.forEach(messageData => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
 
@@ -437,7 +449,7 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
         `;
 
         messageList.appendChild(messageElement);
-      }
+      });
     });
   }
 
