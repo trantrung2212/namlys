@@ -340,49 +340,52 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
   </div>
 </section>
 	
+<!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+
 <script>
-  // Xử lý chọn emoji
-  const emojiPicker = document.getElementById('emojiPicker');
-  let selectedEmojis = [];
+  // Cấu hình Firebase
+  const firebaseConfig = {
+  apiKey: "AIzaSyBjZlfSat-d3MKTgHMgnFo4-hCDv-wTgkw",
+  authDomain: "namlys.firebaseapp.com",
+  projectId: "namlys",
+  storageBucket: "namlys.firebasestorage.app",
+  messagingSenderId: "573398370432",
+  appId: "1:573398370432:web:fef4efcd3b606ca0fffe65"
+};
+  // Khởi tạo Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
-  emojiPicker.addEventListener('click', (e) => {
-    if (e.target.classList.contains('emoji')) {
-      const emoji = e.target.textContent;
-
-      // Thêm hoặc xóa emoji khỏi danh sách đã chọn
-      if (selectedEmojis.includes(emoji)) {
-        selectedEmojis = selectedEmojis.filter((e) => e !== emoji);
-        e.target.style.opacity = 0.5; // Làm mờ icon đã bỏ chọn
-      } else {
-        selectedEmojis.push(emoji);
-        e.target.style.opacity = 1; // Hiển thị icon rõ
-      }
-    }
-  });
-
-  // Tải lời chúc từ Local Storage
+  // Tải lời chúc từ Firebase
   function loadMessages() {
-    const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
     const listMessage = document.querySelector('.list_message');
     listMessage.innerHTML = ''; // Xóa nội dung cũ
 
-    savedMessages.forEach((msg) => {
-      const newMessage = document.createElement('div');
-      newMessage.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
-      newMessage.innerHTML = `
-        <h3 class="user_message">${msg.name}</h3>
-        <p class="message_body">${msg.message}</p>
-        <div class="emoji-list">${msg.emojis.join(' ')}</div>
-      `;
-      listMessage.prepend(newMessage);
+    firebase.database().ref('messages').on('value', (snapshot) => {
+      const messages = snapshot.val();
+      if (messages) {
+        Object.values(messages).forEach((msg) => {
+          const newMessage = document.createElement('div');
+          newMessage.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
+          newMessage.innerHTML = `
+            <h3 class="user_message">${msg.name}</h3>
+            <p class="message_body">${msg.message}</p>
+            <div class="emoji-list">${msg.emojis.join(' ')}</div>
+          `;
+          listMessage.prepend(newMessage);
+        });
+      }
     });
   }
 
-  // Lưu lời chúc vào Local Storage
+  // Lưu lời chúc vào Firebase
   function saveMessage(name, message, emojis) {
-    const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
-    savedMessages.push({ name, message, emojis });
-    localStorage.setItem('messages', JSON.stringify(savedMessages));
+    const newMessageKey = firebase.database().ref().child('messages').push().key;
+    const updates = {};
+    updates['/messages/' + newMessageKey] = { name, message, emojis };
+    return firebase.database().ref().update(updates);
   }
 
   // Xử lý form gửi lời chúc
@@ -397,16 +400,18 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
 
     // Kiểm tra dữ liệu
     if (name && message) {
-      // Lưu vào Local Storage
-      saveMessage(name, message, selectedEmojis);
-
-      // Tải lại danh sách lời chúc
-      loadMessages();
-
-      // Xóa nội dung trong form
-      form.reset();
-      selectedEmojis = []; // Reset emoji đã chọn
-      document.querySelectorAll('.emoji').forEach((el) => (el.style.opacity = 1));
+      // Lưu vào Firebase
+      saveMessage(name, message, selectedEmojis)
+        .then(() => {
+          // Xóa nội dung trong form
+          form.reset();
+          selectedEmojis = []; // Reset emoji đã chọn
+          document.querySelectorAll('.emoji').forEach((el) => (el.style.opacity = 1));
+        })
+        .catch((error) => {
+          console.error('Error saving message:', error);
+          alert('Không thể lưu lời chúc, vui lòng thử lại.');
+        });
     } else {
       alert('Vui lòng điền đầy đủ thông tin!');
     }
@@ -415,6 +420,7 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
   // Tải lời chúc khi trang được load
   document.addEventListener('DOMContentLoaded', loadMessages);
 </script>
+
 
 
 	
