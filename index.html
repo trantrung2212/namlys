@@ -1,25 +1,4 @@
 <html lang="vi" style="--primary-color: #ddac61;" class="sr"><head>
-	
-	<!-- Thêm Firebase SDK vào trang của bạn -->
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-
-<script>
-  // Cấu hình Firebase của bạn (thay các giá trị này bằng thông tin Firebase của bạn)
-  const firebaseConfig = {
-  apiKey: "AIzaSyBjZlfSat-d3MKTgHMgnFo4-hCDv-wTgkw",
-  authDomain: "namlys.firebaseapp.com",
-  projectId: "namlys",
-  storageBucket: "namlys.firebasestorage.app",
-  messagingSenderId: "573398370432",
-  appId: "1:573398370432:web:fef4efcd3b606ca0fffe65"
-};
-	
-  // Khởi tạo Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-</script>
-	
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
@@ -33,7 +12,10 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15
 /*! This file is auto-generated */
 !function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
 </script>
-	
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
 <style id="wp-emoji-styles-inline-css">
 
 	img.wp-smiley, img.emoji {
@@ -307,45 +289,24 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
 <!-- END ALBUM -->
 
 <section id="message" class="section-message uk-background-cover uk-section" 
-         style="background-image:url('./Photo/LAC05666.png'); display:block;">
-  <!-- Overlay -->
-  <div class="uk-position-cover uk-overlay uk-overlay-primary" style="opacity:.5"></div>
-
-  <!-- Nội dung -->
-  <div class="message-container container uk-position-relative uk-position-z-index">
-    <!-- Tiêu đề -->
-    <h2 class="section-title uk-light" style="color:white;">Gửi lời chúc đến cặp đôi</h2>
-
-    <!-- Danh sách lời chúc -->
-    <div class="list_message">
-      <!-- Một lời chúc mẫu -->
-      <div class="blur-bg uk-padding-small uk-border-rounded uk-light">
-        <h3 class="user_message">Trung</h3>
-        <p class="message_body">Chúc mừng hạnh phúc 2 bạn</p>
-        <div class="emoji-list">❤️ 🎉 🥳</div>
-      </div>
-      <!-- Thêm các lời chúc khác tại đây -->
-    </div>
-
-   <section id="message" class="section-message uk-background-cover uk-section" 
          style="background-image:url('https://thiepdientu.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2024/05/04062525/D06C7125-5F86-4629-9ABD-1E595698613D.jpeg'); display:block;">
   <!-- Overlay -->
   <div class="uk-position-cover uk-overlay uk-overlay-primary" style="opacity:.5"></div>
 
   <!-- Nội dung -->
   <div class="message-container container uk-position-relative uk-position-z-index">
-    <!-- Tiêu đề -->
     <h2 class="section-title uk-light" style="color:white;">Gửi lời chúc đến cặp đôi</h2>
 
     <!-- Danh sách lời chúc -->
     <div class="list_message">
-      <!-- Lời chúc mẫu, sẽ được hiển thị từ Firestore -->
+      <!-- Một lời chúc mẫu -->
+      <!-- Các lời chúc khác sẽ hiển thị ở đây -->
     </div>
 
     <!-- Form gửi lời chúc -->
     <div class="uk-padding-small uk-border-rounded blur-bg" style="border:1px solid white;">
       <h3 class="form-title" style="color:white;">Gửi lời chúc</h3>
-      <form id="messageForm" method="POST">
+      <form id="messageForm">
         <!-- Tên -->
         <div class="input-group uk-margin-top">
           <label for="m_name" style="color:white;">Tên của bạn</label>
@@ -377,11 +338,12 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
   </div>
 </section>
 
-<!-- Thêm Firebase Script vào cuối body -->
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+<!-- Thêm mã JavaScript ở đây -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
 <script>
-// Cấu hình Firebase của bạn (cập nhật với thông tin Firebase thực tế)
+// Cấu hình Firebase
   const firebaseConfig = {
   apiKey: "AIzaSyBjZlfSat-d3MKTgHMgnFo4-hCDv-wTgkw",
   authDomain: "namlys.firebaseapp.com",
@@ -390,18 +352,22 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
   messagingSenderId: "573398370432",
   appId: "1:573398370432:web:fef4efcd3b606ca0fffe65"
 };
+
+// Khởi tạo Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-</script>
 
-// Xử lý chọn emoji
+// Lấy các phần tử trong DOM
+const form = document.getElementById('messageForm');
+const listMessage = document.querySelector('.list_message');
 const emojiPicker = document.getElementById('emojiPicker');
 let selectedEmojis = [];
 
+// Xử lý chọn emoji
 emojiPicker.addEventListener('click', (e) => {
   if (e.target.classList.contains('emoji')) {
     const emoji = e.target.textContent;
-
+    
     // Thêm hoặc xóa emoji khỏi danh sách đã chọn
     if (selectedEmojis.includes(emoji)) {
       selectedEmojis = selectedEmojis.filter((e) => e !== emoji);
@@ -414,17 +380,14 @@ emojiPicker.addEventListener('click', (e) => {
 });
 
 // Xử lý form gửi lời chúc
-const form = document.getElementById('messageForm');
-const listMessage = document.querySelector('.list_message');
-
 form.addEventListener('submit', (e) => {
-  e.preventDefault();
+  e.preventDefault();  // Ngừng hành động mặc định của form
 
   // Lấy dữ liệu từ form
   const name = document.getElementById('m_name').value.trim();
   const message = document.getElementById('m_text').value.trim();
 
-  // Kiểm tra dữ liệu
+  // Kiểm tra nếu tên và lời nhắn không rỗng
   if (name && message) {
     // Lưu lời chúc vào Firestore
     db.collection("messages").add({
@@ -478,7 +441,7 @@ db.collection("messages")
       listMessage.appendChild(newMessage);
     });
   });
-	
+</script>
 
 
 
