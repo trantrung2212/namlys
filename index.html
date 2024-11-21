@@ -9,11 +9,9 @@
 		<title>Thiệp mời Phương Nam - Thiên Lý</title>
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+  import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-  // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyBjZlfSat-d3MKTgHMgnFo4-hCDv-wTgkw",
     authDomain: "namlys.firebaseapp.com",
@@ -24,17 +22,24 @@
     appId: "1:573398370432:web:5195b26650df2cf0fffe65"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  // Function to save the message to Firebase
+  // Function to save the message to Firebase with timestamp
   function saveMessage(name, message) {
+    const timestamp = new Date().toISOString(); // Current time in ISO format
     const newMessageRef = ref(database, 'messages/' + Date.now());
     set(newMessageRef, {
       name: name,
-      message: message
+      message: message,
+      timestamp: timestamp
     });
+  }
+
+  // Function to format timestamp into a readable format
+  function formatTimestamp(isoString) {
+    const date = new Date(isoString);
+    return date.toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
   }
 
   // Function to fetch and display messages
@@ -42,19 +47,22 @@
     const messagesRef = ref(database, 'messages');
     get(messagesRef).then((snapshot) => {
       if (snapshot.exists()) {
-        const messages = snapshot.val();
+        const messages = Object.values(snapshot.val()); // Convert object to array
+        // Sort messages by timestamp in descending order
+        messages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
         const messageList = document.querySelector('.list_message');
         messageList.innerHTML = ""; // Clear existing messages
-        for (let key in messages) {
-          const message = messages[key];
+        messages.forEach(({ name, message, timestamp }) => {
           const messageDiv = document.createElement('div');
           messageDiv.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
           messageDiv.innerHTML = `
-            <h3 class="user_message">${message.name}</h3>
-            <p class="message_body">${message.message}</p>
+            <h3 class="user_message">${name}</h3>
+            <p class="message_body">${message}</p>
+            <p class="timestamp">${formatTimestamp(timestamp)}</p>
           `;
           messageList.appendChild(messageDiv);
-        }
+        });
       } else {
         console.log("No messages found.");
       }
@@ -71,13 +79,13 @@
     saveMessage(name, message);
     document.getElementById('m_name').value = '';
     document.getElementById('m_text').value = '';
-    displayMessages(); // Refresh the list after submission
+    setTimeout(displayMessages, 500); // Slight delay to ensure message is saved before fetching
   });
 
   // Display messages when the page loads
   window.onload = displayMessages;
-
 </script>
+
 
 
 	
