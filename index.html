@@ -412,7 +412,7 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
       newMessageRef.set({
         name: name,
         message: message,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString() // Lưu thời gian gửi tin nhắn
       });
 
       // Xóa nội dung trong form
@@ -421,31 +421,42 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
     }
   });
 
+  // Chuyển đổi timestamp thành định dạng dễ đọc
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleString('vi-VN', { // Định dạng theo ngôn ngữ Việt
+      weekday: 'short', // Thứ (ngắn gọn)
+      year: 'numeric', // Năm
+      month: 'long', // Tháng
+      day: 'numeric', // Ngày
+      hour: '2-digit', // Giờ
+      minute: '2-digit', // Phút
+      second: '2-digit' // Giây
+    });
+  }
+
   // Hiển thị các lời chúc từ Firebase
   function displayMessages() {
-    database.ref('messages').on('value', function(snapshot) {
+    database.ref('messages').orderByChild('timestamp').on('value', function(snapshot) {
       const messages = snapshot.val();
       messageList.innerHTML = ''; // Xóa tất cả các lời chúc trước đó
 
-      // Lấy các messages từ Firebase và chuyển chúng thành một mảng
-      const messagesArray = Object.keys(messages).map(messageId => {
-        return {
-          id: messageId,
-          ...messages[messageId]
-        };
-      });
+      // Chuyển các tin nhắn thành một mảng và đảo ngược để hiển thị tin nhắn mới nhất đầu tiên
+      const messageArray = Object.keys(messages).map(id => messages[id]);
+      messageArray.reverse(); // Đảo ngược mảng để tin nhắn mới nhất nằm ở đầu
 
-      // Sắp xếp mảng messagesArray để tin nhắn mới nhất lên trước
-      messagesArray.reverse(); // Đảo ngược mảng để hiển thị tin nhắn mới nhất trước
-
-      // Duyệt qua các tin nhắn đã sắp xếp và hiển thị
-      messagesArray.forEach(messageData => {
+      // Hiển thị các tin nhắn
+      messageArray.forEach(messageData => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
+
+        // Format thời gian gửi tin nhắn
+        const formattedTime = formatDate(messageData.timestamp);
 
         messageElement.innerHTML = `
           <h3 class="user_message">${messageData.name}</h3>
           <p class="message_body">${messageData.message}</p>
+          <small class="message_time" style="color:white">${formattedTime}</small>
         `;
 
         messageList.appendChild(messageElement);
@@ -456,6 +467,7 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
   // Khi trang web tải xong, hiển thị lời chúc
   window.onload = displayMessages;
 </script>
+
 
 
 <!-- GỬI QUÀ -->
