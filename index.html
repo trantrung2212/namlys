@@ -284,63 +284,6 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
 </section>
 <!-- END ALBUM -->
 
-	<section id="message" class="section-message uk-background-cover uk-section" 
-         style="background-image:url('https://thiepdientu.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2024/05/04062525/D06C7125-5F86-4629-9ABD-1E595698613D.jpeg'); display:block;">
-  <!-- Overlay -->
-  <div class="uk-position-cover uk-overlay uk-overlay-primary" style="opacity:.5"></div>
-
-  <!-- Nội dung -->
-  <div class="message-container container uk-position-relative uk-position-z-index">
-    <!-- Tiêu đề -->
-    <h2 class="section-title uk-light" style="color:white;">Gửi lời chúc đến cặp đôi</h2>
-
-    <!-- Danh sách lời chúc -->
-    <div class="list_message">
-      <!-- Một lời chúc mẫu -->
-      <div class="blur-bg uk-padding-small uk-border-rounded uk-light">
-        <h3 class="user_message">Trung</h3>
-        <p class="message_body">Chúc mừng hạnh phúc 2 bạn</p>
-        <div class="emoji-list">❤️ 🎉 🥳</div>
-      </div>
-      <!-- Thêm các lời chúc khác tại đây -->
-    </div>
-
-    <!-- Form gửi lời chúc -->
-    <div class="uk-padding-small uk-border-rounded blur-bg" style="border:1px solid white;">
-      <h3 class="form-title" style="color:white;">Gửi lời chúc</h3>
-      <form id="messageForm" method="POST">
-        <!-- Tên -->
-        <div class="input-group uk-margin-top">
-          <label for="m_name" style="color:white;">Tên của bạn</label>
-          <input id="m_name" type="text" class="input blur-bg" style="border:1px solid white; color:white;" required>
-        </div>
-
-        <!-- Lời chúc -->
-        <div class="input-group uk-margin-top">
-          <label for="m_text" style="color:white;">Lời nhắn gửi</label>
-          <textarea id="m_text" class="input-text blur-bg" style="border:1px solid white; color:white;" rows="5" required></textarea>
-        </div>
-
-        <!-- Chọn icon -->
-        <div class="input-group uk-margin-top">
-          <label style="color:white;">Thả icon</label>
-          <div id="emojiPicker" style="display:flex; gap:10px;">
-            <span class="emoji" style="cursor:pointer; font-size:20px;">❤️</span>
-            <span class="emoji" style="cursor:pointer; font-size:20px;">🎉</span>
-            <span class="emoji" style="cursor:pointer; font-size:20px;">🥳</span>
-            <span class="emoji" style="cursor:pointer; font-size:20px;">😊</span>
-            <span class="emoji" style="cursor:pointer; font-size:20px;">💍</span>
-          </div>
-        </div>
-
-        <!-- Nút gửi -->
-        <button type="submit" class="btn btn-primary send_message uk-margin-top" style="color:white;">Gửi lời chúc</button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- JavaScript -->
 <script>
   // Xử lý chọn emoji
   const emojiPicker = document.getElementById('emojiPicker');
@@ -361,9 +304,33 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
     }
   });
 
+  // Tải lời chúc từ Local Storage
+  function loadMessages() {
+    const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
+    const listMessage = document.querySelector('.list_message');
+    listMessage.innerHTML = ''; // Xóa nội dung cũ
+
+    savedMessages.forEach((msg) => {
+      const newMessage = document.createElement('div');
+      newMessage.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
+      newMessage.innerHTML = `
+        <h3 class="user_message">${msg.name}</h3>
+        <p class="message_body">${msg.message}</p>
+        <div class="emoji-list">${msg.emojis.join(' ')}</div>
+      `;
+      listMessage.prepend(newMessage);
+    });
+  }
+
+  // Lưu lời chúc vào Local Storage
+  function saveMessage(name, message, emojis) {
+    const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
+    savedMessages.push({ name, message, emojis });
+    localStorage.setItem('messages', JSON.stringify(savedMessages));
+  }
+
   // Xử lý form gửi lời chúc
   const form = document.getElementById('messageForm');
-  const listMessage = document.querySelector('.list_message');
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -374,17 +341,11 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
 
     // Kiểm tra dữ liệu
     if (name && message) {
-      // Tạo lời chúc mới
-      const newMessage = document.createElement('div');
-      newMessage.classList.add('blur-bg', 'uk-padding-small', 'uk-border-rounded', 'uk-light');
-      newMessage.innerHTML = `
-        <h3 class="user_message">${name}</h3>
-        <p class="message_body">${message}</p>
-        <div class="emoji-list">${selectedEmojis.join(' ')}</div>
-      `;
+      // Lưu vào Local Storage
+      saveMessage(name, message, selectedEmojis);
 
-      // Thêm vào danh sách
-      listMessage.prepend(newMessage);
+      // Tải lại danh sách lời chúc
+      loadMessages();
 
       // Xóa nội dung trong form
       form.reset();
@@ -394,7 +355,11 @@ Huyện Thạch Hà - Tỉnh Hà Tĩnh</p>
       alert('Vui lòng điền đầy đủ thông tin!');
     }
   });
+
+  // Tải lời chúc khi trang được load
+  document.addEventListener('DOMContentLoaded', loadMessages);
 </script>
+
 
 	
 <!-- VIDEO -->
